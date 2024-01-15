@@ -3,7 +3,7 @@ import {MainContainer, ChatContainer, MessageList, Message, MessageInput, Typing
 import './App.css'
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css'
 
-const API_KEY = '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';
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 function App() {
 
@@ -46,12 +46,52 @@ function App() {
       return{role: role, content : messageObject.message}
     });
 
-    
+//role: "user" -> message from the user
+//"asssistant" -> response from ChatGPT 
+//"system" -> one general message defining the behaviour of ChatGPT
+
+const systemMessage = {
+  role: "system",
+  content: "Explain all contents like I am a beginner"
+}
+
+const apiRequestBody = {
+  model : "gpt-3.5-turbo",
+  messages: [
+    systemMessage,
+    ...apiMessages
+  ]
+}
+
+ await fetch("https://api.openai.com/v1/chat/completions", {
+  method: "POST",
+  headers: {
+    "Authorization": "Bearer " + API_KEY,
+    "Content-Type": "application/json",
+
+  },
+  body: JSON.stringify(apiRequestBody)
+ }).then((data) => {
+  return data.json();
+ }).then((data) => {
+  console.log(data);
+  console.log(data.choices[0].message.content);
+  setMessages(
+    [...chatMessages, {
+      message: data.choices[0].message.content,
+      sender: "ChatGPT"
+    }
+
+    ]
+  );
+  setTyping(false)
+ })
+
   }
 
   return (
-    <div className="App">
-      <div className='relative h-[800px] w-[700px] '>
+    <div className="flex justify-center items-center">
+      <div className='relative py-2 h-[96vh] w-[700px]'>
          <MainContainer>
           <ChatContainer>
             <MessageList
@@ -61,7 +101,7 @@ function App() {
               })}
 
             </MessageList>
-            <MessageInput placeholder='Type your message here...' onSend={handleSend}/>
+            <MessageInput className='mb-0' placeholder='Type your message here... ' onSend={handleSend}/>
           </ChatContainer>
          </MainContainer>
       </div>
