@@ -10,7 +10,7 @@ function App() {
   const [typing, setTyping] = useState(false);
   const [messages, setMessages] = useState([
     {
-      message: "Hello, I am ChatGPT",
+      message: "Hello, I am a your personal chatbot. You can ask me anything and I will try my best to answer you",
       sender: "ChatGPT"
     }
   ])
@@ -91,11 +91,11 @@ const apiRequestBody = {
 
   return (
     <div className="flex justify-center items-center">
-      <div className='relative py-2 h-[96vh] w-[700px]'>
+      <div className='relative py-2 h-[96vh] w-[700px] border-red-800'>
          <MainContainer>
           <ChatContainer>
             <MessageList
-            typingIndicator={typing ? <TypingIndicator content="ChatBot is typing"/> : null}>
+            typingIndicator={typing ? <TypingIndicator content="ChatBot is Typing"/> : null}>
               {messages.map((message, i) => {
                 return <Message key={i} model={message}/> 
               })}
