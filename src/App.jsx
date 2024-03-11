@@ -90,18 +90,19 @@ const apiRequestBody = {
   }
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center h-[100vh]" style={{backgroundColor: "#03001C"}}>
       <div className='relative py-2 h-[96vh] w-[700px] border-red-800'>
-         <MainContainer>
-          <ChatContainer>
+         <MainContainer style={{backgroundColor: '#03001C', borderRadius: '6px'} }>
+          <ChatContainer style={{background: '#15EFd6'}}>
             <MessageList
+            style={{backgroundColor: '#03001C', padding:"8px"}}
             typingIndicator={typing ? <TypingIndicator content="ChatBot is Typing"/> : null}>
               {messages.map((message, i) => {
-                return <Message key={i} model={message}/> 
+                return <Message key={i} model={message} /> 
               })}
 
             </MessageList>
-            <MessageInput className='mb-0' placeholder='Type your message here... ' onSend={handleSend}/>
+            <MessageInput className='mb-0' placeholder='Type your message here... ' onSend={handleSend} style={{backgroundColor: '#301E67'}}/>
           </ChatContainer>
          </MainContainer>
       </div>
